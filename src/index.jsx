@@ -9,6 +9,7 @@ import './index.css';
 const App = () => (
   <Layout>
     <Examples data={data} />
+    <p>This is a fork repository</p>
   </Layout>
 );
 
