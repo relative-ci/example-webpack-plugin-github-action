@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack --mode production --json artifacts/webpack-stats.json",
+    "container-build": "docker build . --no-cache-filter=build --progress=plain",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "keywords": [],
