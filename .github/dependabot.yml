@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "05:00"
+    commit-message:
+      prefix: "chore(deps)"
+    target-branch: "master"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "05:00"
+    commit-message:
+      prefix: "chore(deps)"
+    target-branch: "master"
