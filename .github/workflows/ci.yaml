@@ -1,6 +1,10 @@
 name: ci
 
-on: push
+on:
+  push:
+    branches:
+      - master
+  pull_request:
 
 jobs:
   build:
@@ -12,6 +16,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - uses: hmarr/debug-action@v3
 
       - name: Cache node modules
         uses: actions/cache@v4
