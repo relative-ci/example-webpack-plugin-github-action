@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const RelativeCIAgentPlugin = require('@relative-ci/webpack-plugin');
+const RelativeCIAgentPlugin = require('@relative-ci/webpack-plugin').default;
 
 const SRC_DIR = path.resolve(__dirname, 'src');
 const OUT_DIR = path.resolve(__dirname, 'dist');
@@ -97,6 +97,7 @@ module.exports = (_, { mode }) => {
       }),
       new RelativeCIAgentPlugin({
         payloadFilepath: path.join(ARTIFACTS_DIR, 'relative-ci-payload.json'),
+        failOnError: true,
       }),
     ],
     devServer: {
