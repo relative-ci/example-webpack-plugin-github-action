@@ -4,6 +4,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const { RelativeCiAgentWebpackPlugin } = require('@relative-ci/agent');
 
+const packageInfo = require('./package.json');
+
 const SRC_DIR = path.resolve(__dirname, 'src');
 const OUT_DIR = path.resolve(__dirname, 'dist');
 const ARTIFACTS_DIR = path.resolve(__dirname, 'artifacts');
@@ -25,7 +27,7 @@ module.exports = (_, options) => {
     resolve: {
       extensions: ['.jsx', '.js', '.json'],
       alias: {
-        '@babel/runtime/helpers/esm': '@babel/runtime/helpers/',
+        // '@babel/runtime/helpers/esm': '@babel/runtime/helpers/',
       },
     },
     module: {
@@ -39,14 +41,7 @@ module.exports = (_, options) => {
           test: /\.css$/,
           use: [
             MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader',
-              options: {
-                modules: {
-                  namedExport: false,
-                },
-              },
-            },
+            'css-loader',
             {
               loader: 'postcss-loader',
               options: {
@@ -59,12 +54,20 @@ module.exports = (_, options) => {
               },
             },
           ],
-          include: [SRC_DIR],
+          include: [
+            SRC_DIR,
+            /node_modules\/antd/,
+          ],
         },
         {
           test: /\.(png|jpe?g|webp|gif)$/,
           type: 'asset/resource',
           include: [SRC_DIR],
+        },
+        {
+          test: /\.svg$/,
+          type: 'asset/resource',
+          include: [path.join(SRC_DIR, 'assets')],
         },
         {
           test: /\.inline.svg$/,
@@ -85,7 +88,9 @@ module.exports = (_, options) => {
     },
     plugins: [
       new HtmlPlugin({
+        title: packageInfo.description,
         template: './index.html',
+        publicPath: '/',
       }),
       new MiniCssExtractPlugin({
         filename: isProduction ? '[name].[contenthash].css': '[name].css',

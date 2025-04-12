@@ -5,7 +5,6 @@
 
 > [@relative-ci/agent](https://github.com/relative-ci/agent) webpack plugin setup example for [Github Action](https://github.com/features/actions)
 
-
 ## Example app
 
 Basic webpack setup:
@@ -13,5 +12,4 @@ Basic webpack setup:
 - `CSS`: `postcss`(`autoprefixer`, `cssnano`), `css-modules`, `mini-css-extract`
 - assets:
   - `public`: `copy-webpack-plugin`
-  - `src`: `file-loader`
-  - `inline.svg`: - `svgr`
+  - `*.inline.svg`: - `svgr`

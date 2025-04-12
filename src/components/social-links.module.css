@@ -1,0 +1,11 @@
+.item + .item {
+  margin-left: 8px;
+}
+
+.item {
+  opacity: 0.4;
+}
+
+.item:hover {
+  opacity: 1;
+}
