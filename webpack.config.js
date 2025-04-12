@@ -18,6 +18,7 @@ module.exports = (_, { mode }) => {
     output: {
       path: OUT_DIR,
       filename: isProduction ? '[name].[contenthash:5].js': '[name].js',
+      assetModuleFilename: isProduction ? '[path][name].[contenthash:5].[ext]' : '[path][name].[ext]',
     },
     resolve: {
       extensions: ['.jsx', '.js', '.json'],
@@ -62,10 +63,7 @@ module.exports = (_, { mode }) => {
         },
         {
           test: /\.(png|jpe?g|webp|gif)$/,
-          loader: 'file-loader',
-          options: {
-            name: isProduction ? '[path][name].[contenthash:5].[ext]' : '[path][name].[ext]',
-          },
+          type: 'asset/resource',
           include: [SRC_DIR],
         },
         {
