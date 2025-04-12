@@ -13,6 +13,7 @@ module.exports = (_, { mode }) => {
 
   return {
     context: SRC_DIR,
+    mode: mode || "development", 
     entry: './index.jsx',
     output: {
       path: OUT_DIR,
@@ -36,11 +37,15 @@ module.exports = (_, { mode }) => {
           use: [
             {
               loader: MiniCssExtractPlugin.loader,
+            },
+            {
+              loader: 'css-loader',
               options: {
-                hmr: !isProduction,
+                modules: {
+                  namedExport: false,
+                },
               },
             },
-            'css-loader',
             {
               loader: 'postcss-loader',
               options: {
@@ -98,10 +103,6 @@ module.exports = (_, { mode }) => {
       new RelativeCiAgentWebpackPlugin({
         payloadFilepath: path.join(ARTIFACTS_DIR, 'relative-ci-payload.json'),
       }),
-    ],
-    devServer: {
-      hot: true,
-      inline: true
-    }
+    ]
   };
 };
