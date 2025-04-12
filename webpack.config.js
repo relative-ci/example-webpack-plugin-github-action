@@ -8,15 +8,19 @@ const SRC_DIR = path.resolve(__dirname, 'src');
 const OUT_DIR = path.resolve(__dirname, 'dist');
 const ARTIFACTS_DIR = path.resolve(__dirname, 'artifacts');
 
-module.exports = (_, { mode }) => {
+module.exports = (_, options) => {
+  const { mode = 'production' } = options;
   const isProduction = mode === 'production';
 
   return {
     context: SRC_DIR,
+    mode, 
     entry: './index.jsx',
     output: {
       path: OUT_DIR,
-      filename: isProduction ? '[name].[contenthash:5].js': '[name].js',
+      filename: isProduction ? '[name].[contenthash].js': '[name].js',
+      assetModuleFilename: isProduction ? '[path][name].[contenthash].[ext]' : '[path][name].[ext]',
+      hashDigestLength: 8,
     },
     resolve: {
       extensions: ['.jsx', '.js', '.json'],
@@ -28,19 +32,21 @@ module.exports = (_, { mode }) => {
       rules: [
         {
           test: /\.jsx?$/,
-          loader: 'babel-loader',
+          use: 'babel-loader',
           include: [SRC_DIR],
         },
         {
           test: /\.css$/,
           use: [
+            MiniCssExtractPlugin.loader,
             {
-              loader: MiniCssExtractPlugin.loader,
+              loader: 'css-loader',
               options: {
-                hmr: !isProduction,
+                modules: {
+                  namedExport: false,
+                },
               },
             },
-            'css-loader',
             {
               loader: 'postcss-loader',
               options: {
@@ -57,10 +63,7 @@ module.exports = (_, { mode }) => {
         },
         {
           test: /\.(png|jpe?g|webp|gif)$/,
-          loader: 'file-loader',
-          options: {
-            name: isProduction ? '[path][name].[contenthash:5].[ext]' : '[path][name].[ext]',
-          },
+          type: 'asset/resource',
           include: [SRC_DIR],
         },
         {
@@ -83,10 +86,10 @@ module.exports = (_, { mode }) => {
     plugins: [
       new HtmlPlugin({
         template: './index.html',
-        filename: 'index.html',
       }),
       new MiniCssExtractPlugin({
-        filename: isProduction ? '[name].[contenthash:5].css': '[name].css',
+        filename: isProduction ? '[name].[contenthash].css': '[name].css',
+        chunkFilename: isProduction ? '[name].chunk.[contenthash].css': '[name].css',
       }),
       new CopyPlugin({
         patterns: [
@@ -98,10 +101,6 @@ module.exports = (_, { mode }) => {
       new RelativeCiAgentWebpackPlugin({
         payloadFilepath: path.join(ARTIFACTS_DIR, 'relative-ci-payload.json'),
       }),
-    ],
-    devServer: {
-      hot: true,
-      inline: true
-    }
+    ]
   };
 };
