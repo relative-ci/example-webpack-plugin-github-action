@@ -39,7 +39,7 @@
     "webpack-dev-server": "^5.2.1"
   },
   "dependencies": {
-    "@ant-design/pro-components": "2.8.7",
+    "@ant-design/pro-components": "2.8.9",
     "antd": "5.25.4",
     "classnames": "2.5.1",
     "core-js": "3.42.0",
