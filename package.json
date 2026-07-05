@@ -36,7 +36,7 @@
     "postcss-loader": "^8.1.1",
     "webpack": "^5.99.5",
     "webpack-cli": "^7.0.0",
-    "webpack-dev-server": "^5.2.1"
+    "webpack-dev-server": "^6.0.0"
   },
   "dependencies": {
     "@ant-design/pro-components": "2.8.10",
